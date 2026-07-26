@@ -13,6 +13,7 @@ const emptyForm = {
   isActive: true,
 };
 
+
 const iconOptions = ['globe', 'smartphone', 'palette', 'trending-up', 'megaphone', 'image', 'server', 'pen-tool', 'link', 'code'];
 
 const Services = () => {

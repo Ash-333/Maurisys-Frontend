@@ -117,8 +117,7 @@ const HeroBlueprint = () => {
               className={`text-base md:text-lg text-slate-400 mb-10 leading-relaxed max-w-lg mh2-mono ${mounted ? 'mh2-in' : 'mh2-pre'}`}
               style={{ transitionDelay: '260ms' }}
             >
-              We engineer custom software, brand experiences, and growth strategies for ambitious
-              businesses. Precision‑built, reliably delivered, measurably effective.
+              We build cutting-edge software applications that drive growth, efficiency, and competitive advantage for businesses worldwide.
             </p>
 
             <div
@@ -134,7 +133,7 @@ const HeroBlueprint = () => {
             </div>
 
             {/* Ruler-style stat row */}
-            <div
+            {/* <div
               className={`mh2-ruler mh2-mono ${mounted ? 'mh2-in' : 'mh2-pre'}`}
               style={{ transitionDelay: '420ms' }}
             >
@@ -150,7 +149,7 @@ const HeroBlueprint = () => {
                 <p className="mh2-stat">24/7</p>
                 <p className="mh2-stat-label">Support coverage</p>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Right — instrument panel */}

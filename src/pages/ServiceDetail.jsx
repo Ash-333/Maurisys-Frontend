@@ -86,7 +86,7 @@ const ServiceDetail = () => {
 
           <div className="text-center mt-12">
             <Link to="/contact" className="btn-primary">
-              Get a Quote <ArrowRight size={16} className="ml-2" />
+              Get a Started <ArrowRight size={16} className="ml-2" />
             </Link>
           </div>
         </div>

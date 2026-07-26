@@ -3,11 +3,11 @@ import { Check, ArrowRight } from 'lucide-react';
 
 const AboutSection = () => {
   const points = [
-    'Experienced team of 50+ professionals',
-    'Customized solutions for every business',
-    'Affordable, transparent pricing',
-    'Dedicated 24/7 customer support',
-    'Proven track record across industries',
+    '10+ experienced technology professionals',
+    'AI & Business Automation solutions',
+    'Custom software tailored to your business',
+    'Transparent pricing & 24/7 support',
+    'Proven expertise across industries',
     'Long-term technology partnerships',
   ];
 
@@ -71,14 +71,10 @@ const AboutSection = () => {
               </span>
             </h2>
             <p className="text-slate-600 mb-5 leading-relaxed text-[15px]">
-              Maurisys Solution is a full-service IT company helping businesses unlock growth
-              through technology. From startups to large enterprises, we partner with
-              organizations of all sizes to deliver digital solutions that scale.
+              Maurisys is a trusted technology partner helping businesses transform ideas into innovative digital solutions. We specialize in web development, mobile applications, AI-powered solutions, business automation, cloud technologies, and custom software designed to improve efficiency, streamline operations, and drive sustainable growth.
             </p>
             <p className="text-slate-600 mb-7 leading-relaxed text-[15px]">
-              Our mission is straightforward: turn your ideas into impactful digital products.
-              We combine deep technical expertise with strategic thinking to build websites,
-              apps, and platforms your customers will love.
+              Whether you're a startup, growing business, or enterprise, our experienced team delivers secure, scalable, and high-performance solutions tailored to your unique business goals. From strategy and design to development, deployment, and ongoing support, we are committed to delivering technology that creates lasting value.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mb-9">

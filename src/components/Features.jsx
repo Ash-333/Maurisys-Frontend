@@ -31,8 +31,7 @@ const Features = () => {
           <p className="section-eyebrow">Why Choose Us</p>
           <h2 className="section-title">From Vision to Working Code</h2>
           <p className="section-lede">
-            We blend strategy, design, and engineering rigor to deliver solutions that
-            drive measurable business outcomes.
+            We deliver fast, high-quality, and secure digital solutions backed by an experienced team committed to your success.
           </p>
         </div>
 

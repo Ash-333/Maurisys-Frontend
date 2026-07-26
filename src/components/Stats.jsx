@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { Briefcase, Users, Award, Smile } from 'lucide-react';
 
 const stats = [
-  { icon: Briefcase, value: 300, suffix: '+', label: 'Projects Completed' },
-  { icon: Users, value: 200, suffix: '+', label: 'Happy Clients' },
-  { icon: Award, value: 15, suffix: '+', label: 'Industry Awards' },
-  { icon: Smile, value: 5, suffix: '+', label: 'Years Experience' },
+  { icon: Briefcase, value: 50, suffix: '+', label: 'Projects Completed' },
+  { icon: Users, value: 40, suffix: '+', label: 'Happy Clients' },
+  { icon: Award, value: 10, suffix: '+', label: 'Ongoing Projects' },
+  { icon: Smile, value: 4, suffix: '+', label: 'Years Experience' },
 ];
 
 // Count-up hook with start trigger

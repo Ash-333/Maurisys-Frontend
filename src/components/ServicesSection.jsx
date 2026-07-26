@@ -45,8 +45,7 @@ const ServicesSection = ({ limit = null }) => {
             <p className="section-eyebrow">Our Services</p>
             <h2 className="section-title">Complete Digital Solutions</h2>
             <p className="section-lede">
-              End-to-end technology services that take your business from idea to launch
-              and beyond.
+              Transforming ideas into powerful digital solutions with end-to-end technology services that drive innovation, growth, and long-term success.
             </p>
           </div>
           {limit && (

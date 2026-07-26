@@ -4,7 +4,7 @@ import AboutSection from '../components/AboutSection';
 import ServicesSection from '../components/ServicesSection';
 import PortfolioSection from '../components/PortfolioSection';
 import Stats from '../components/Stats';
-import Pricing from '../components/Pricing';
+// import Pricing from '../components/Pricing';
 import Testimonials from '../components/Testimonials';
 import BlogSection from '../components/BlogSection';
 import FAQ from '../components/FAQ';
@@ -19,7 +19,7 @@ const Home = () => {
       <Stats />
       <ServicesSection limit={6} />
       <PortfolioSection limit={6} showFilters={false} />
-      <Pricing />
+      {/* <Pricing /> */}
       <Testimonials />
       <BlogSection limit={3} />
       <FAQ />

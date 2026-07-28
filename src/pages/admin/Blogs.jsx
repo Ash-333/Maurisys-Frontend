@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Plus, Edit2, Trash2, Eye, X, Search } from 'lucide-react';
 import API from '../../services/api';
+import ImageUpload from '../../components/admin/ImageUpload';
 
 const emptyForm = {
   title: '',
@@ -165,11 +166,10 @@ const Blogs = () => {
                       </span>
                     </td>
                     <td className="p-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        blog.isPublished
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${blog.isPublished
                           ? 'bg-green-50 text-green-700'
                           : 'bg-slate-100 text-slate-600'
-                      }`}>
+                        }`}>
                         {blog.isPublished ? 'Published' : 'Draft'}
                       </span>
                     </td>
@@ -257,18 +257,14 @@ const Blogs = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Cover Image URL</label>
-                  <input
-                    type="url"
-                    value={form.coverImage}
-                    onChange={(e) => setForm({ ...form, coverImage: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-primary-500"
-                    placeholder="https://..."
-                  />
-                </div>
+              <ImageUpload
+                value={form.coverImage}
+                onChange={(url) => setForm({ ...form, coverImage: url })}
+                folder="blog"
+                label="Cover Image"
+              />
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1.5">Category</label>
                   <input

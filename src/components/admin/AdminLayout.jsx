@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate, Outlet } from 'react-router-dom';
 import {
   LayoutDashboard, FileText, Briefcase, Wrench,
-  Mail, LogOut, Menu, X, Code2, ExternalLink, CreditCard, Star,
+  Mail, LogOut, Menu, X, Code2, ExternalLink, Star, ShoppingBag,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import logo from '../../assets/logo.png'
@@ -22,7 +22,7 @@ const AdminLayout = () => {
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard, end: true },
     { name: 'Services', path: '/admin/services', icon: Wrench },
     { name: 'Portfolio', path: '/admin/portfolio', icon: Briefcase },
-    { name: 'Pricing Plans', path: '/admin/plans', icon: CreditCard },
+    { name: 'Products', path: '/admin/products', icon: ShoppingBag },
     { name: 'Reviews', path: '/admin/reviews', icon: Star },
     { name: 'Blogs', path: '/admin/blogs', icon: FileText },
     { name: 'Contact Messages', path: '/admin/contacts', icon: Mail },
@@ -40,9 +40,8 @@ const AdminLayout = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-primary-950 text-slate-300 z-50 transform transition-transform lg:translate-x-0 border-r border-white/[0.06] ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed top-0 left-0 h-full w-64 bg-primary-950 text-slate-300 z-50 transform transition-transform lg:translate-x-0 border-r border-white/[0.06] ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         <div className="p-5 border-b border-white/[0.06]">
           <Link to="/admin" className="flex items-center gap-2.5">
@@ -72,10 +71,9 @@ const AdminLayout = () => {
                 end={item.end}
                 onClick={() => setSidebarOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-[13px] transition-colors ${
-                    isActive
-                      ? 'bg-white/[0.08] text-white'
-                      : 'text-slate-400 hover:bg-white/[0.04] hover:text-white'
+                  `flex items-center gap-3 px-3 py-2.5 rounded-md font-medium text-[13px] transition-colors ${isActive
+                    ? 'bg-white/[0.08] text-white'
+                    : 'text-slate-400 hover:bg-white/[0.04] hover:text-white'
                   }`
                 }
               >

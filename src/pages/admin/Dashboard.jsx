@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  FileText, Briefcase, Wrench, Mail, TrendingUp, Eye, ArrowRight,
-  CreditCard, Star, Edit2, Plus,
+  FileText, Briefcase, Wrench, Mail, Eye, ArrowRight,
+  Star, Edit2, Plus, ShoppingBag, Users,
 } from 'lucide-react';
 import API from '../../services/api';
+
+// Safely unwrap a Promise.allSettled result, falling back to an empty
+// shape if that particular request failed — so one broken/unavailable
+// endpoint never blanks out the rest of the dashboard.
+const settledData = (result, fallback = { data: [], count: 0 }) =>
+  result.status === 'fulfilled' ? result.value.data : fallback;
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -12,7 +18,8 @@ const Dashboard = () => {
     portfolio: 0,
     blogs: 0,
     contacts: 0,
-    plans: 0,
+    products: 0,
+    teamMembers: 0,
     pendingReviews: 0,
     totalReviews: 0,
     totalViews: 0,
@@ -27,42 +34,61 @@ const Dashboard = () => {
   useEffect(() => {
     const loadDashboard = async () => {
       try {
-        const [services, portfolio, blogs, contacts, plans, reviews] = await Promise.all([
+        const results = await Promise.allSettled([
           API.get('/services'),
           API.get('/portfolio'),
           API.get('/blogs?limit=100'),
           API.get('/contact'),
-          API.get('/plans?all=true'),
           API.get('/reviews?all=true'),
+          API.get('/products?active=all'),
+          API.get('/team?active=all'),
         ]);
 
-        const totalViews = blogs.data.data.reduce((sum, b) => sum + (b.views || 0), 0);
-        const newMessages = contacts.data.data.filter((c) => c.status === 'new').length;
-        const pendingReviews = reviews.data.data.filter((r) => !r.isApproved).length;
-        const totalReviews = reviews.data.count || 0;
+        const [
+          services,
+          portfolio,
+          blogs,
+          contacts,
+          reviews,
+          products,
+          team,
+        ] = results.map((r) => settledData(r));
+
+        const totalViews = (blogs.data || []).reduce((sum, b) => sum + (b.views || 0), 0);
+        const newMessages = (contacts.data || []).filter((c) => c.status === 'new').length;
+        const pendingReviews = (reviews.data || []).filter((r) => !r.isApproved).length;
+        const totalReviews = reviews.count || 0;
 
         // Tally projects by category
         const byCategory = {};
-        portfolio.data.data.forEach((p) => {
+        (portfolio.data || []).forEach((p) => {
           byCategory[p.category] = (byCategory[p.category] || 0) + 1;
         });
 
         setStats({
-          services: services.data.count,
-          portfolio: portfolio.data.count,
-          blogs: blogs.data.total || blogs.data.count,
-          contacts: contacts.data.count,
-          plans: plans.data.count || 0,
+          services: services.count || 0,
+          portfolio: portfolio.count || 0,
+          blogs: blogs.total || blogs.count || 0,
+          contacts: contacts.count || 0,
+          products: products.count || 0,
+          teamMembers: team.count || 0,
           pendingReviews,
           totalReviews,
           totalViews,
           newMessages,
         });
 
-        setRecentBlogs(blogs.data.data.slice(0, 4));
-        setRecentContacts(contacts.data.data.slice(0, 4));
-        setRecentProjects(portfolio.data.data.slice(0, 5));
+        setRecentBlogs((blogs.data || []).slice(0, 4));
+        setRecentContacts((contacts.data || []).slice(0, 4));
+        setRecentProjects((portfolio.data || []).slice(0, 5));
         setProjectsByCategory(byCategory);
+
+        // Surface any individual failures in the console without blocking the UI
+        results.forEach((r, idx) => {
+          if (r.status === 'rejected') {
+            console.warn(`Dashboard: request ${idx} failed:`, r.reason?.message);
+          }
+        });
       } catch (e) {
         console.error('Dashboard load error:', e);
       } finally {
@@ -82,6 +108,14 @@ const Dashboard = () => {
       hint: 'Manage portfolio',
     },
     {
+      label: 'Products',
+      value: stats.products,
+      icon: ShoppingBag,
+      tone: 'accent',
+      link: '/admin/products',
+      hint: 'Manage products',
+    },
+    {
       label: 'Services',
       value: stats.services,
       icon: Wrench,
@@ -90,12 +124,12 @@ const Dashboard = () => {
       hint: 'Manage services',
     },
     {
-      label: 'Pricing Plans',
-      value: stats.plans,
-      icon: CreditCard,
-      tone: 'accent',
-      link: '/admin/plans',
-      hint: 'Edit plans & features',
+      label: 'Team Members',
+      value: stats.teamMembers,
+      icon: Users,
+      tone: 'slate',
+      link: '/admin/team',
+      hint: 'Manage team',
     },
     {
       label: 'Blog Posts',

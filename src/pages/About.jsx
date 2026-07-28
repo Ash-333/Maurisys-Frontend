@@ -3,6 +3,7 @@ import Stats from '../components/Stats';
 import Testimonials from '../components/Testimonials';
 import CTA from '../components/CTA';
 import { Target, Eye, Heart } from 'lucide-react';
+import TeamSection from "../components/TeamSection"
 
 const About = () => {
   const values = [
@@ -71,6 +72,8 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      <TeamSection />
 
       <Stats />
       <Testimonials />

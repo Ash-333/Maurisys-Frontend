@@ -9,6 +9,8 @@ import About from './pages/About';
 import Services from './pages/Services';
 import ServiceDetail from './pages/ServiceDetail';
 import Portfolio from './pages/Portfolio';
+import Products from './pages/Products';
+import ProductDetail from './pages/ProductDetail';
 import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
 import Contact from './pages/Contact';
@@ -28,6 +30,7 @@ import Dashboard from './pages/admin/Dashboard';
 import AdminBlogs from './pages/admin/Blogs';
 import AdminServices from './pages/admin/Services';
 import AdminPortfolio from './pages/admin/Portfolio';
+import AdminProducts from './pages/admin/Products'
 import AdminContacts from './pages/admin/Contacts';
 import AdminReviews from './pages/admin/Reviews';
 
@@ -50,6 +53,8 @@ const App = () => {
           <Route path="/services" element={<Services />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
           <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:slug" element={<ProductDetail />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogDetail />} />
           <Route path="/contact" element={<Contact />} />
@@ -81,6 +86,7 @@ const App = () => {
             <Route path="blogs" element={<AdminBlogs />} />
             <Route path="services" element={<AdminServices />} />
             <Route path="portfolio" element={<AdminPortfolio />} />
+            <Route path="products" element={<AdminProducts />} />
             <Route path="reviews" element={<AdminReviews />} />
             <Route path="contacts" element={<AdminContacts />} />
           </Route>

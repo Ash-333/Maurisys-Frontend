@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Plus, Edit2, Trash2, X, Star } from 'lucide-react';
 import API from '../../services/api';
+import ImageUpload from '../../components/admin/ImageUpload';
 
 const emptyForm = {
   title: '',
@@ -64,6 +65,10 @@ const Portfolio = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!form.image) {
+      toast.error('Please upload a project image');
+      return;
+    }
     setSubmitting(true);
     try {
       const payload = {
@@ -221,17 +226,12 @@ const Portfolio = () => {
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Image URL *</label>
-                <input
-                  type="url"
-                  value={form.image}
-                  onChange={(e) => setForm({ ...form, image: e.target.value })}
-                  required
-                  className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-primary-500"
-                  placeholder="https://..."
-                />
-              </div>
+              <ImageUpload
+                value={form.image}
+                onChange={(url) => setForm({ ...form, image: url })}
+                folder="portfolio"
+                label="Project Image *"
+              />
 
               <div className="grid grid-cols-2 gap-4">
                 <div>

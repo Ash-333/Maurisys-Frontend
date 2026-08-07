@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Plus, Edit2, Trash2, Eye, X, Search } from 'lucide-react';
 import API from '../../services/api';
-import ImageUpload from '../../components/admin/ImageUpload';
+import ImageUpload from '../../components/admin/imageUpload';
 
 const emptyForm = {
   title: '',

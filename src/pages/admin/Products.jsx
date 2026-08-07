@@ -7,7 +7,7 @@ import {
     updateProduct,
     deleteProduct,
 } from '../../services/api';
-import ImageUpload from '../../components/admin/ImageUpload';
+import ImageUpload from '../../components/admin/imageUpload';
 
 const emptyForm = {
     name: '',

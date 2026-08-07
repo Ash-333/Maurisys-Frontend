@@ -7,7 +7,7 @@ import {
     updateTeamMember,
     deleteTeamMember,
 } from '../../services/api';
-import ImageUpload from '../../components/admin/ImageUpload';
+import ImageUpload from '../../components/admin/imageUpload';
 
 const categories = ['leadership', 'development', 'design', 'marketing', 'sales', 'support', 'other'];
 

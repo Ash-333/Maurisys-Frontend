@@ -33,6 +33,7 @@ import AdminPortfolio from './pages/admin/Portfolio';
 import AdminProducts from './pages/admin/Products'
 import AdminContacts from './pages/admin/Contacts';
 import AdminReviews from './pages/admin/Reviews';
+import AdminTeam from './pages/admin/Team';
 
 const App = () => {
   const location = useLocation();
@@ -89,6 +90,7 @@ const App = () => {
             <Route path="products" element={<AdminProducts />} />
             <Route path="reviews" element={<AdminReviews />} />
             <Route path="contacts" element={<AdminContacts />} />
+            <Route path="team" element={<AdminTeam />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

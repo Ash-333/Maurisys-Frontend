@@ -11,7 +11,7 @@ const categories = [
     { id: 'service-bundle', label: 'Bundles' },
 ];
 
-const ProductsSection = ({ limit = null, showFilters = true }) => {
+const ProductsSection = ({ limit = null, showFilters = true, hideIfEmpty = false }) => {
     const [items, setItems] = useState([]);
     const [filter, setFilter] = useState('all');
     const [loading, setLoading] = useState(true);
@@ -30,6 +30,9 @@ const ProductsSection = ({ limit = null, showFilters = true }) => {
         };
         load();
     }, [filter, limit]);
+
+    // Nothing from the API (and nothing loading) — skip the section entirely.
+    if (hideIfEmpty && (loading || items.length === 0)) return null;
 
     return (
         <section className="py-24 bg-white" id="products">
@@ -94,7 +97,7 @@ const ProductsSection = ({ limit = null, showFilters = true }) => {
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                     />
                                     {item.isFeatured && (
-                                        <span className="absolute top-3 left-3 bg-amber-500 text-white text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">
+                                        <span className="absolute top-3 left-3 bg-accent-600 text-white text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">
                                             Featured
                                         </span>
                                     )}

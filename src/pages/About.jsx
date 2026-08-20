@@ -73,10 +73,10 @@ const About = () => {
         </div>
       </section>
 
-      <TeamSection />
+      <TeamSection hideIfEmpty />
 
       <Stats />
-      <Testimonials />
+      <Testimonials hideIfEmpty />
       <CTA />
     </>
   );

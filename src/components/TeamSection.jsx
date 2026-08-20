@@ -19,7 +19,7 @@ const socialIcons = {
     email: Mail,
 };
 
-const TeamSection = () => {
+const TeamSection = ({ hideIfEmpty = false }) => {
     const [members, setMembers] = useState([]);
     const [filter, setFilter] = useState('all');
     const [loading, setLoading] = useState(true);
@@ -38,6 +38,9 @@ const TeamSection = () => {
         };
         load();
     }, [filter]);
+
+    // Nothing from the API (and nothing loading) — skip the section entirely.
+    if (hideIfEmpty && (loading || members.length === 0)) return null;
 
     return (
         <section className="py-24 bg-white" id="team">

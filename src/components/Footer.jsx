@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Code2, Facebook, Instagram, Linkedin, Twitter, Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import maurisysLogo from '../assets/maurisys_logo.bg.webp'
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -14,9 +15,7 @@ const Footer = () => {
               <div className="w-9 h-9 bg-white/10 border border-white/15 rounded-md flex items-center justify-center">
                 <Code2 className="w-5 h-5 text-white" strokeWidth={2.2} />
               </div>
-              <span className="font-display text-xl font-bold text-white tracking-tight">
-                Maurisys<span className="text-primary-300 font-medium"> Solution</span>
-              </span>
+              <img className='w-40' src={maurisysLogo} alt="Logo" />
             </Link>
             <p className="text-sm leading-relaxed mb-6 text-slate-400 max-w-sm">
               Engineered software, design and growth strategy for ambitious businesses.

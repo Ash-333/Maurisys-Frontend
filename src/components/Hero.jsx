@@ -87,7 +87,7 @@ const HeroBlueprint = () => {
               className={`inline-flex items-center gap-2 mb-8 mh2-mono ${mounted ? 'mh2-in' : 'mh2-pre'}`}
               style={{ transitionDelay: '80ms' }}
             >
-              <Crosshair size={13} className="text-amber-400" />
+              <Crosshair size={13} className="text-accent-400" />
               <span className="text-[11px] tracking-[0.2em] uppercase text-slate-300">
                 Maurisys Solution — Studio Notes
               </span>
@@ -160,7 +160,7 @@ const HeroBlueprint = () => {
             <div className="mh2-panel">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-2">
-                  <Radio size={12} className="text-amber-400 mh2-blink" />
+                  <Radio size={12} className="text-accent-400 mh2-blink" />
                   <span className="text-[10px] tracking-[0.2em] uppercase text-slate-400">
                     Perf. Monitor — Live
                   </span>
@@ -275,7 +275,7 @@ const HeroBlueprint = () => {
           transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
         }
 
-        .mh2-headline-underlined { padding-bottom: 0.35em; color: #FFB703; }
+        .mh2-headline-underlined { padding-bottom: 0.35em; color: #C98A4A; }
         .mh2-dimline {
           position: absolute;
           left: 0;
@@ -286,7 +286,7 @@ const HeroBlueprint = () => {
           overflow: visible;
         }
         .mh2-dimline line {
-          stroke: rgba(255,183,3,0.55);
+          stroke: rgba(201,138,74,0.55);
           stroke-width: 1.5;
           stroke-dasharray: 640;
           stroke-dashoffset: 640;
@@ -308,15 +308,15 @@ const HeroBlueprint = () => {
           position: relative;
           transition: border-color 0.2s ease, color 0.2s ease;
         }
-        .mh2-stamp:hover { border-color: rgba(255,183,3,0.7); color: #fff; }
+        .mh2-stamp:hover { border-color: rgba(201,138,74,0.7); color: #fff; }
         .mh2-stamp-fill {
-          background: #FFB703;
+          background: #C98A4A;
           color: #0A1930;
-          border-color: #FFB703;
+          border-color: #C98A4A;
           font-weight: 600;
         }
         .mh2-stamp-fill:hover {
-          background: #ffc733;
+          background: #dca36a;
           color: #0A1930;
           transform: scale(1.02) rotate(-0.4deg);
         }
@@ -383,7 +383,7 @@ const HeroBlueprint = () => {
           top: 0;
           bottom: 0;
           width: 46px;
-          background: linear-gradient(90deg, transparent, rgba(255,183,3,0.14), transparent);
+          background: linear-gradient(90deg, transparent, rgba(201,138,74,0.14), transparent);
           animation: mh2Sweep 3.4s linear infinite;
         }
         @keyframes mh2Sweep {
@@ -396,17 +396,17 @@ const HeroBlueprint = () => {
           right: 10px;
           font-family: 'JetBrains Mono', monospace;
           font-size: 12px;
-          color: #FFB703;
+          color: #C98A4A;
         }
 
         .mh2-gauge-track { fill: none; stroke: rgba(142,202,230,0.18); stroke-width: 7; stroke-linecap: round; }
         .mh2-gauge-fill {
           fill: none;
-          stroke: #FFB703;
+          stroke: #C98A4A;
           stroke-width: 7;
           stroke-linecap: round;
           transition: stroke-dashoffset 0.3s ease-out;
-          filter: drop-shadow(0 0 4px rgba(255,183,3,0.45));
+          filter: drop-shadow(0 0 4px rgba(201,138,74,0.45));
         }
 
         .mh2-readout {

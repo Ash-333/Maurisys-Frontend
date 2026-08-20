@@ -34,7 +34,7 @@ const fallbackTestimonials = [
   },
 ];
 
-const Testimonials = ({ limit = 3, showWriteButton = true }) => {
+const Testimonials = ({ limit = 3, showWriteButton = true, hideIfEmpty = false }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -56,7 +56,12 @@ const Testimonials = ({ limit = 3, showWriteButton = true }) => {
     load();
   }, [limit]);
 
-  const items = reviews.length > 0 ? reviews : fallbackTestimonials;
+  // When hideIfEmpty is set we never fall back to the placeholder reviews —
+  // the section simply doesn't render until real reviews exist.
+  const items = reviews.length > 0 ? reviews : hideIfEmpty ? [] : fallbackTestimonials;
+
+  // Render nothing while loading too, so the section doesn't flash in and out.
+  if (hideIfEmpty && (loading || items.length === 0)) return null;
 
   return (
     <section className="py-24 bg-white">

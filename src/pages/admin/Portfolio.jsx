@@ -158,7 +158,7 @@ const Portfolio = () => {
               <div className="relative h-44">
                 <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                 {item.isFeatured && (
-                  <span className="absolute top-3 left-3 bg-amber-500 text-white text-xs px-2 py-1 rounded-full font-bold flex items-center gap-1">
+                  <span className="absolute top-3 left-3 bg-accent-600 text-white text-xs px-2 py-1 rounded-full font-bold flex items-center gap-1">
                     <Star size={10} fill="currentColor" /> Featured
                   </span>
                 )}

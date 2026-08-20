@@ -187,7 +187,7 @@ const Reviews = () => {
             <div
               key={item._id}
               className={`bg-white rounded-xl border ${
-                !item.isApproved ? 'border-amber-200 bg-amber-50/30' : 'border-slate-200'
+                !item.isApproved ? 'border-accent-200 bg-accent-50/30' : 'border-slate-200'
               } p-5`}
             >
               <div className="flex items-start justify-between gap-4 mb-3 flex-wrap">
@@ -209,7 +209,7 @@ const Reviews = () => {
                         {item.name}
                       </p>
                       {!item.isApproved && (
-                        <span className="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">
+                        <span className="bg-accent-100 text-accent-700 text-[10px] px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">
                           Pending
                         </span>
                       )}

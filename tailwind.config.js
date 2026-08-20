@@ -18,15 +18,21 @@ export default {
           900: '#152340',
           950: '#0c162b',
         },
+        // Brown accent ramp anchored on #603813 (replaces the old gold/amber ramp).
+        // 300-500 are the brand color itself; 50-200 stay light tints for use as
+        // backgrounds/borders, 600-700 are darker steps for hover states.
+        // Brown accent ramp built out from #603813 (replaces the old gold/amber
+        // ramp). 700 is the base color; the lighter steps carry the same hue so
+        // they stay legible on the dark navy sections.
         accent: {
-          50: '#fdf8f3',
-          100: '#f9ecdc',
-          200: '#f1d4ae',
-          300: '#e6b478',
-          400: '#d99a4f',
-          500: '#c98135',
-          600: '#b06a29',
-          700: '#8d5224',
+          50: '#f9f4ee',
+          100: '#efe1d0',
+          200: '#dcc0a0',
+          300: '#c98a4a',
+          400: '#b06f2c',
+          500: '#92591f',
+          600: '#74461a',
+          700: '#603813',
         },
         dark: {
           800: '#1e293b',

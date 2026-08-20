@@ -20,7 +20,7 @@ const Home = () => {
       <ServicesSection limit={6} />
       <PortfolioSection limit={6} showFilters={false} />
       {/* <Pricing /> */}
-      <Testimonials />
+      <Testimonials hideIfEmpty />
       <BlogSection limit={3} />
       <FAQ />
       <CTA />

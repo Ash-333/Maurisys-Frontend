@@ -5,6 +5,7 @@ import ServicesSection from '../components/ServicesSection';
 import PortfolioSection from '../components/PortfolioSection';
 import Stats from '../components/Stats';
 // import Pricing from '../components/Pricing';
+import ProductsSection from '../components/ProductsSection';
 import Testimonials from '../components/Testimonials';
 import BlogSection from '../components/BlogSection';
 import FAQ from '../components/FAQ';
@@ -19,6 +20,7 @@ const Home = () => {
       <Stats />
       <ServicesSection limit={6} />
       <PortfolioSection limit={6} showFilters={false} />
+      <ProductsSection limit={3} showFilters={false} hideIfEmpty />
       {/* <Pricing /> */}
       <Testimonials hideIfEmpty />
       <BlogSection limit={3} />

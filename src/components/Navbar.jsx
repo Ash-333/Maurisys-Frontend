@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Code2, ChevronDown, User as UserIcon, LogOut, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { fetchProducts, fetchReviews } from '../services/api';
 import maurisysLogo from '../assets/maurisys_logo.bg.webp'
 import logo from "../assets/logo.png"
 
@@ -9,6 +10,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [hasProducts, setHasProducts] = useState(false);
+  const [hasReviews, setHasReviews] = useState(false);
   const userMenuRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -24,6 +27,23 @@ const Navbar = () => {
     setIsOpen(false);
     setUserMenuOpen(false);
   }, [location]);
+
+  // Show Products/Reviews nav links only when the API actually has items
+  useEffect(() => {
+    const checkAvailability = async () => {
+      const [productsRes, reviewsRes] = await Promise.allSettled([
+        fetchProducts({ limit: 1 }),
+        fetchReviews({ limit: 1 }),
+      ]);
+      if (productsRes.status === 'fulfilled') {
+        setHasProducts((productsRes.value.data?.data || []).length > 0);
+      }
+      if (reviewsRes.status === 'fulfilled') {
+        setHasReviews((reviewsRes.value.data?.data || []).length > 0);
+      }
+    };
+    checkAvailability();
+  }, []);
 
   // Close user menu on outside click
   useEffect(() => {
@@ -46,9 +66,9 @@ const Navbar = () => {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'Products', path: '/Products' },
+    ...(hasProducts ? [{ name: 'Products', path: '/Products' }] : []),
     { name: 'Portfolio', path: '/portfolio' },
-    { name: 'Reviews', path: '/reviews' },
+    ...(hasReviews ? [{ name: 'Reviews', path: '/reviews' }] : []),
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];

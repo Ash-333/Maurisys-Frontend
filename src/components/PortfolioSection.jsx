@@ -11,7 +11,7 @@ const categories = [
   { id: 'branding', label: 'Branding' },
 ];
 
-const PortfolioSection = ({ limit = null, showFilters = true }) => {
+const PortfolioSection = ({ limit = null, showFilters = true, hideIfEmpty = false }) => {
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
@@ -30,6 +30,9 @@ const PortfolioSection = ({ limit = null, showFilters = true }) => {
     };
     load();
   }, [filter, limit]);
+
+  // When hideIfEmpty is set the section doesn't render until real items exist.
+  if (hideIfEmpty && (loading || items.length === 0)) return null;
 
   return (
     <section className="py-24 bg-slate-50/60 border-y border-slate-100" id="portfolio">

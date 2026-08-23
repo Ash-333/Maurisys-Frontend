@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Code2, ChevronDown, User as UserIcon, LogOut, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { fetchProducts, fetchReviews } from '../services/api';
+import { fetchProducts, fetchReviews, fetchPortfolio } from '../services/api';
 import maurisysLogo from '../assets/maurisys_logo.bg.webp'
 import logo from "../assets/logo.png"
 
@@ -12,6 +12,7 @@ const Navbar = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [hasProducts, setHasProducts] = useState(false);
   const [hasReviews, setHasReviews] = useState(false);
+  const [hasPortfolio, setHasPortfolio] = useState(false);
   const userMenuRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -31,15 +32,19 @@ const Navbar = () => {
   // Show Products/Reviews nav links only when the API actually has items
   useEffect(() => {
     const checkAvailability = async () => {
-      const [productsRes, reviewsRes] = await Promise.allSettled([
+      const [productsRes, reviewsRes, portfolioRes] = await Promise.allSettled([
         fetchProducts({ limit: 1 }),
         fetchReviews({ limit: 1 }),
+        fetchPortfolio({ limit: 1 }),
       ]);
       if (productsRes.status === 'fulfilled') {
         setHasProducts((productsRes.value.data?.data || []).length > 0);
       }
       if (reviewsRes.status === 'fulfilled') {
         setHasReviews((reviewsRes.value.data?.data || []).length > 0);
+      }
+      if (portfolioRes.status === 'fulfilled') {
+        setHasPortfolio((portfolioRes.value.data?.data || []).length > 0);
       }
     };
     checkAvailability();
@@ -67,7 +72,7 @@ const Navbar = () => {
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
     ...(hasProducts ? [{ name: 'Products', path: '/Products' }] : []),
-    { name: 'Portfolio', path: '/portfolio' },
+    ...(hasPortfolio ? [{ name: 'Portfolio', path: '/portfolio' }] : []),
     ...(hasReviews ? [{ name: 'Reviews', path: '/reviews' }] : []),
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },

@@ -19,7 +19,7 @@ const Home = () => {
       <AboutSection />
       <Stats />
       <ServicesSection limit={6} />
-      <PortfolioSection limit={6} showFilters={false} />
+      <PortfolioSection limit={6} showFilters={false} hideIfEmpty />
       <ProductsSection limit={3} showFilters={false} hideIfEmpty />
       {/* <Pricing /> */}
       <Testimonials hideIfEmpty />

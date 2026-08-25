@@ -35,7 +35,7 @@ const ProductsSection = ({ limit = null, showFilters = true, hideIfEmpty = false
     if (hideIfEmpty && (loading || items.length === 0)) return null;
 
     return (
-        <section className="py-24 bg-white" id="products">
+        <section className="py-12 bg-white" id="products">
             <div className="container-custom">
                 <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
                     <div className="max-w-xl">

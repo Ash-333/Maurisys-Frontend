@@ -43,7 +43,7 @@ const HeroBlueprint = () => {
     return () => clearTimeout(t);
   }, []);
 
-  const clientsCount = useCountUp(200, 1600, mounted);
+  const clientsCount = useCountUp(50, 1600, mounted);
   const satisfactionCount = useCountUp(98, 1800, mounted);
   const performanceCount = useCountUp(142.6, 2000, mounted);
 

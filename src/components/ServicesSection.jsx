@@ -38,7 +38,7 @@ const ServicesSection = ({ limit = null }) => {
   }, [limit]);
 
   return (
-    <section className="py-24 bg-white" id="services">
+    <section className="py-12 bg-white" id="services">
       <div className="container-custom">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
           <div className="max-w-xl">

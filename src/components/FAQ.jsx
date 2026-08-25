@@ -32,7 +32,7 @@ const FAQ = () => {
   const [openIdx, setOpenIdx] = useState(0);
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-12 bg-white">
       <div className="container-custom max-w-4xl">
         <div className="text-center mb-14">
           <p className="section-eyebrow justify-center">FAQ</p>

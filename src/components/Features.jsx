@@ -25,7 +25,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section className="py-24 bg-slate-50/60 border-y border-slate-100">
+    <section className="py-12 bg-slate-50/60 border-y border-slate-100">
       <div className="container-custom">
         <div className="max-w-2xl mb-14">
           <p className="section-eyebrow">Why Choose Us</p>

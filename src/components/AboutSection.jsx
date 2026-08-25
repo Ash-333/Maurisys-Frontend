@@ -12,7 +12,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-white" id="about">
+    <section className="py-12 bg-white" id="about">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Image side */}
@@ -54,7 +54,7 @@ const AboutSection = () => {
 
             {/* Stats badge */}
             <div className="absolute -bottom-4 -right-4 bg-primary-900 text-white rounded-xl p-5 shadow-elevated hidden md:block">
-              <p className="stat-number text-3xl">5+</p>
+              <p className="stat-number text-3xl">4+</p>
               <p className="text-[11px] uppercase tracking-[0.18em] text-primary-200 mt-1">
                 Years of Experience
               </p>

@@ -35,7 +35,7 @@ const PortfolioSection = ({ limit = null, showFilters = true, hideIfEmpty = fals
   if (hideIfEmpty && (loading || items.length === 0)) return null;
 
   return (
-    <section className="py-24 bg-slate-50/60 border-y border-slate-100" id="portfolio">
+    <section className="py-12 bg-slate-50/60 border-y border-slate-100" id="portfolio">
       <div className="container-custom">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">

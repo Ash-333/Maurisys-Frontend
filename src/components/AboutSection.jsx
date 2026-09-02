@@ -21,7 +21,8 @@ const AboutSection = () => {
               <div className="space-y-3">
                 <div className="rounded-xl overflow-hidden shadow-card border border-slate-100">
                   <img
-                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600"
+                    src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600"
+                    
                     alt="Team collaboration"
                     className="w-full h-44 object-cover"
                   />
@@ -37,14 +38,14 @@ const AboutSection = () => {
               <div className="space-y-3 pt-8">
                 <div className="rounded-xl overflow-hidden shadow-card border border-slate-100">
                   <img
-                    src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600"
+                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600"
                     alt="Client meeting"
                     className="w-full h-32 object-cover"
                   />
                 </div>
                 <div className="rounded-xl overflow-hidden shadow-card border border-slate-100">
                   <img
-                    src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600"
+                    src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600"
                     alt="Working together"
                     className="w-full h-44 object-cover"
                   />

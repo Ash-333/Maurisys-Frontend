@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useMemo } from 'react';
-import { ArrowUpRight, Crosshair, Activity, Radio } from 'lucide-react';
+import { ArrowUpRight, Crosshair, Activity, Radio, Terminal } from 'lucide-react';
 
 // Count-up hook
 const useCountUp = (end, duration = 2000, start = true) => {
@@ -26,6 +26,21 @@ const useCountUp = (end, duration = 2000, start = true) => {
   return count;
 };
 
+// Activity log feed for the instrument column
+const LOG_EVENTS = [
+  { tag: 'BUILD', text: 'maurisys-api .......... PASS' },
+  { tag: 'DEPLOY', text: 'staging ................. OK' },
+  { tag: 'COMMIT', text: 'feat/portfolio-filter' },
+  { tag: 'TEST', text: '148 passed ......... 0 failed' },
+  { tag: 'AUDIT', text: 'deps scan .......... 0 issues' },
+  { tag: 'CACHE', text: 'edge purge .............. OK' },
+];
+
+const stamp = (d) =>
+  `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(
+    d.getSeconds()
+  ).padStart(2, '0')}`;
+
 // Small "+" registration mark, used at the four corners of the sheet
 const RegMark = ({ className = '' }) => (
   <svg width="18" height="18" viewBox="0 0 18 18" className={`mh2-regmark ${className}`} aria-hidden="true">
@@ -46,6 +61,24 @@ const HeroBlueprint = () => {
   const clientsCount = useCountUp(50, 1600, mounted);
   const satisfactionCount = useCountUp(98, 1800, mounted);
   const performanceCount = useCountUp(142.6, 2000, mounted);
+
+  // Rolling activity log — newest line on top
+  const [log, setLog] = useState(() => {
+    const now = Date.now();
+    return LOG_EVENTS.slice(0, 4).map((e, i) => ({ ...e, id: i, time: stamp(new Date(now - i * 27000)) }));
+  });
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let next = LOG_EVENTS.length > 4 ? 4 : 0;
+    const id = setInterval(() => {
+      const event = LOG_EVENTS[next % LOG_EVENTS.length];
+      const key = next;
+      next += 1;
+      setLog((prev) => [{ ...event, id: key, time: stamp(new Date()) }, ...prev].slice(0, 4));
+    }, 3200);
+    return () => clearInterval(id);
+  }, []);
 
   // Semi-circle gauge geometry
   const gaugeRadius = 42;
@@ -75,9 +108,12 @@ const HeroBlueprint = () => {
       <div className="container-custom relative z-10">
         {/* Title block */}
         <div
-          className={`flex items-center justify-between mb-14 pb-3 border-b border-cyan-200/15 mh2-mono ${mounted ? 'mh2-in' : 'mh2-pre'}`}
+          className={`flex items-center justify-between gap-4 mb-14 pb-3 border-b border-cyan-200/15 mh2-mono text-[10px] tracking-[0.2em] uppercase ${mounted ? 'mh2-in' : 'mh2-pre'}`}
           style={{ transitionDelay: '0ms' }}
         >
+          <span className="text-slate-300">Maurisys Solution</span>
+          <span className="hidden sm:inline text-slate-500">Sheet 01 / Rev 2.4</span>
+          <span className="text-slate-500">{today}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
@@ -217,6 +253,21 @@ const HeroBlueprint = () => {
                 </div>
               </div>
             </div>
+
+            {/* Rolling activity log */}
+            <div className="mh2-log mt-5">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] tracking-[0.2em] uppercase text-slate-400">Activity Log</span>
+                <Terminal size={12} className="text-cyan-300/70" />
+              </div>
+              {log.map((line) => (
+                <div key={line.id} className="mh2-log-row">
+                  <span className="mh2-log-time">{line.time}</span>
+                  <span className="mh2-log-tag">{line.tag}</span>
+                  <span className="mh2-log-text">{line.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -354,6 +405,28 @@ const HeroBlueprint = () => {
           pointer-events: none;
         }
 
+        .mh2-log {
+          border: 1px solid rgba(142,202,230,0.22);
+          border-radius: 4px;
+          background: rgba(6,16,34,0.35);
+          padding: 16px 18px;
+        }
+        .mh2-log-row {
+          display: flex;
+          align-items: baseline;
+          gap: 10px;
+          font-size: 11px;
+          padding: 5px 0;
+          border-bottom: 1px dashed rgba(142,202,230,0.12);
+          animation: mh2LogIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
+          white-space: nowrap;
+        }
+        .mh2-log-row:last-child { border-bottom: none; }
+        .mh2-log-time { color: rgba(148,163,184,0.7); }
+        .mh2-log-tag { color: #C98A4A; font-weight: 600; letter-spacing: 0.08em; width: 48px; flex-shrink: 0; }
+        .mh2-log-text { color: #CFEBF5; overflow: hidden; text-overflow: ellipsis; }
+        @keyframes mh2LogIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
         .mh2-blink { animation: mh2Blink 1.6s ease-in-out infinite; }
         @keyframes mh2Blink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
 
@@ -420,7 +493,7 @@ const HeroBlueprint = () => {
         .mh2-readout-value { font-size: 12.5px; color: #CFEBF5; font-weight: 600; }
 
         @media (prefers-reduced-motion: reduce) {
-          .mh2-pre, .mh2-in, .mh2-dimline line, .mh2-scope-trace, .mh2-scope-sweep, .mh2-blink, .mh2-stamp-fill {
+          .mh2-pre, .mh2-in, .mh2-dimline line, .mh2-scope-trace, .mh2-scope-sweep, .mh2-blink, .mh2-stamp-fill, .mh2-log-row {
             animation: none !important;
             transition: none !important;
             opacity: 1 !important;

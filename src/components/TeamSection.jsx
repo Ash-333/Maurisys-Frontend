@@ -1,5 +1,5 @@
-import { useEffect, useState, useMemo } from 'react';
-import { Linkedin, Twitter, Github, Mail } from 'lucide-react';
+import { useEffect, useState, useMemo, useRef } from 'react';
+import { Linkedin, Twitter, Github, Mail, ArrowUpRight } from 'lucide-react';
 import { fetchTeam } from '../services/api';
 
 const categoryLabels = {
@@ -18,67 +18,99 @@ const socialIcons = {
     email: Mail,
 };
 
-const socialLinks = (socials) =>
-    Object.entries(socials || {}).map(([key, url]) => {
-        if (!url) return null;
-        const Icon = socialIcons[key];
-        if (!Icon) return null;
-        const href = key === 'email' ? `mailto:${url}` : url;
-        return (
-            <a key={key} href={href} target={key === 'email' ? undefined : '_blank'} rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center text-slate-800 hover:bg-white">
-                <Icon size={12} />
-            </a>
+// Reveal a node once it scrolls into view (matches the pattern in Stats.jsx)
+const useReveal = () => {
+    const ref = useRef(null);
+    const [inView, setInView] = useState(false);
+
+    useEffect(() => {
+        const node = ref.current;
+        if (!node) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setInView(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
         );
-    });
+        observer.observe(node);
+        return () => observer.disconnect();
+    }, []);
 
-const LeaderCard = ({ member }) => (
-    <div className="group text-center">
-        <div className="relative w-32 h-32 rounded-full overflow-hidden bg-slate-100 mx-auto mb-4 ring-4 ring-primary-100 shadow-lg">
-            <img src={member.image} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-3 gap-2">
-                {socialLinks(member.socials)}
-            </div>
-        </div>
-        <h3 className="font-bold text-slate-900 text-lg">{member.name}</h3>
-        <p className="text-sm text-primary-700 font-medium">{member.role}</p>
-    </div>
-);
+    return [ref, inView];
+};
 
-const MemberCard = ({ member }) => (
-    <div className="group text-center shrink-0 w-40">
-        <div className="relative aspect-square rounded-2xl overflow-hidden bg-slate-100 mb-3">
-            <img src={member.image} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-            <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex justify-center gap-1.5">
-                {socialLinks(member.socials)}
-            </div>
-        </div>
-        <h4 className="font-semibold text-slate-900 text-sm tracking-tight truncate">{member.name}</h4>
-        <p className="text-xs text-slate-500 truncate">{member.role}</p>
-    </div>
-);
-
-const centeredCategories = ['leadership', 'development'];
-
-const isTopLevel = (role) => /ceo|founder/i.test(role || '');
-
-const CategorySection = ({ category, members }) => {
-    const isCentered = centeredCategories.includes(category);
+const SocialPills = ({ socials, reverse = false }) => {
+    const entries = Object.entries(socials || {}).filter(([key, url]) => url && socialIcons[key]);
+    if (entries.length === 0) return null;
 
     return (
-        <div className="py-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary-700 mb-6 text-center">{categoryLabels[category] || category}</p>
-            <div className={`flex gap-12 flex-wrap ${isCentered ? 'justify-center' : 'justify-start'}`}>
-                {members.map((member) =>
-                    isCentered ? (
-                        <LeaderCard key={member._id} member={member} />
-                    ) : (
-                        <MemberCard key={member._id} member={member} />
-                    )
+        <div className={`flex flex-wrap gap-2 mt-5 ${reverse ? 'lg:justify-end' : ''}`}>
+            {entries.map(([key, url]) => {
+                const Icon = socialIcons[key];
+                const href = key === 'email' ? `mailto:${url}` : url;
+                return (
+                    <a
+                        key={key}
+                        href={href}
+                        target={key === 'email' ? undefined : '_blank'}
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-300 text-[11px] font-medium uppercase tracking-[0.15em] text-slate-600 hover:border-primary-600 hover:text-primary-700 transition-colors"
+                    >
+                        <Icon size={13} />
+                        {key}
+                        <ArrowUpRight size={12} />
+                    </a>
+                );
+            })}
+        </div>
+    );
+};
+
+const MemberRow = ({ member, reverse = false }) => {
+    const [ref, inView] = useReveal();
+    const paragraphs = (member.bio || '')
+        .split(/\n\s*\n|\n/)
+        .map((p) => p.trim())
+        .filter(Boolean);
+
+    return (
+        <div ref={ref} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+            <div className={`lg:col-span-3 team-reveal ${reverse ? 'lg:order-2 team-from-right' : 'team-from-left'} ${inView ? 'is-in' : ''}`}>
+                <div className={`aspect-[4/5] max-w-[240px] rounded-2xl overflow-hidden bg-slate-100 ${reverse ? 'lg:ml-auto' : ''}`}>
+                    <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                    />
+                </div>
+                <SocialPills socials={member.socials} reverse={reverse} />
+            </div>
+
+            <div
+                className={`lg:col-span-9 lg:border-slate-200 team-reveal team-delay ${
+                    reverse ? 'lg:order-1 lg:border-r lg:pr-14 team-from-left' : 'lg:border-l lg:pl-14 team-from-right'
+                } ${inView ? 'is-in' : ''}`}
+            >
+                <h3 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">{member.name}</h3>
+                <p className="mt-2 text-sm font-semibold text-primary-700">{member.role}</p>
+                {paragraphs.length > 0 && (
+                    <div className="mt-8 space-y-5">
+                        {paragraphs.map((text, i) => (
+                            <p key={i} className="text-[15px] md:text-base text-slate-600 leading-[1.85]">
+                                {text}
+                            </p>
+                        ))}
+                    </div>
                 )}
             </div>
         </div>
     );
 };
+
+const isTopLevel = (role) => /ceo|founder/i.test(role || '');
 
 const TeamSection = ({ hideIfEmpty = false }) => {
     const [members, setMembers] = useState([]);
@@ -131,49 +163,84 @@ const TeamSection = ({ hideIfEmpty = false }) => {
 
     return (
         <section className="py-24 bg-white" id="team">
-            <div className="container-custom">
-                <div className="text-center max-w-2xl mx-auto mb-16">
-                    <p className="section-eyebrow justify-center">Our People</p>
-                    <h2 className="section-title">Meet the Team</h2>
-                    <p className="section-lede">
-                        The people behind the work — organized by function.
-                    </p>
-                </div>
+            <div className="container-custom max-w-6xl">
+                <style>{`
+                    .team-reveal {
+                        opacity: 0;
+                        transform: translateY(24px);
+                        transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+                    }
+                    .team-from-left { transform: translate3d(-28px, 18px, 0); }
+                    .team-from-right { transform: translate3d(28px, 18px, 0); }
+                    .team-delay { transition-delay: 140ms; }
+                    .team-reveal.is-in { opacity: 1; transform: translate3d(0, 0, 0); }
+                    @media (prefers-reduced-motion: reduce) {
+                        .team-reveal, .team-reveal.is-in {
+                            opacity: 1;
+                            transform: none;
+                            transition: none;
+                        }
+                    }
+                `}</style>
 
-                {loading ? (
-                    <div className="space-y-8">
-                        <div className="flex justify-center animate-pulse">
-                            <div className="w-32 h-32 rounded-full bg-slate-200" />
-                        </div>
-                        {[1, 2].map((i) => (
-                            <div key={i} className="flex gap-5 justify-center animate-pulse">
-                                {[1, 2, 3].map((j) => (
-                                    <div key={j} className="w-40 shrink-0">
-                                        <div className="aspect-square bg-slate-200 rounded-2xl mb-3" />
-                                        <div className="h-3 bg-slate-200 rounded w-24 mx-auto" />
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </div>
-                ) : members.length === 0 ? (
-                    <div className="bg-slate-50/60 border border-slate-100 rounded-2xl p-12 text-center text-slate-500">
-                        No team members yet.
-                    </div>
-                ) : (
-                    <div className="divide-y divide-slate-100">
-                        {topLevel.length > 0 && (
-                            <div className="py-8 flex justify-center gap-12 flex-wrap">
-                                {topLevel.map((member) => (
-                                    <LeaderCard key={member._id} member={member} />
-                                ))}
-                            </div>
-                        )}
-                        {categoryKeys.map((cat) => (
-                            <CategorySection key={cat} category={cat} members={grouped[cat]} />
+                {/* Category index — slash separated, jumps to each group */}
+                {categoryKeys.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-700 mb-6">
+                        {categoryKeys.map((cat, i) => (
+                            <span key={cat} className="flex items-center gap-2">
+                                {i > 0 && <span className="text-slate-300">/</span>}
+                                <a href={`#team-${cat}`} className="hover:text-primary-900 transition-colors">
+                                    {categoryLabels[cat] || cat}
+                                </a>
+                            </span>
                         ))}
                     </div>
                 )}
+
+                <h2 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">Meet the team</h2>
+                <p className="mt-4 text-lg text-slate-500 max-w-2xl leading-relaxed">
+                    The people who build our software and stand behind every project we ship.
+                </p>
+
+                <div className="mt-16">
+                    {loading ? (
+                        <div className="space-y-20 animate-pulse">
+                            {[1, 2].map((i) => (
+                                <div key={i} className="grid grid-cols-1 lg:grid-cols-12 gap-14">
+                                    <div className="lg:col-span-3 aspect-[4/5] max-w-[240px] rounded-2xl bg-slate-200" />
+                                    <div className="lg:col-span-9 space-y-4 pt-2">
+                                        <div className="h-9 bg-slate-200 rounded w-1/2" />
+                                        <div className="h-3 bg-slate-200 rounded w-24" />
+                                        <div className="h-3 bg-slate-200 rounded w-full mt-8" />
+                                        <div className="h-3 bg-slate-200 rounded w-full" />
+                                        <div className="h-3 bg-slate-200 rounded w-4/5" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : members.length === 0 ? (
+                        <div className="bg-slate-50/60 border border-slate-100 rounded-2xl p-12 text-center text-slate-500">
+                            No team members yet.
+                        </div>
+                    ) : (
+                        <div className="space-y-20">
+                            {topLevel.map((member, i) => (
+                                <MemberRow key={member._id} member={member} reverse={i % 2 === 1} />
+                            ))}
+
+                            {categoryKeys.map((cat) => (
+                                <div key={cat} id={`team-${cat}`} className="space-y-20 scroll-mt-28">
+                                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400 pt-4 border-t border-slate-200">
+                                        {categoryLabels[cat] || cat}
+                                    </p>
+                                    {grouped[cat].map((member, i) => (
+                                        <MemberRow key={member._id} member={member} reverse={i % 2 === 1} />
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
         </section>
     );

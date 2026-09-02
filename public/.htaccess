@@ -1,0 +1,74 @@
+# ----------------------------------------------------------------------
+# Maurisys Frontend - Apache configuration for Vite/React SPA
+# ----------------------------------------------------------------------
+
+# Enable URL rewriting
+RewriteEngine On
+
+# ----------------------------------------------------------------------
+# SPA routing - forward all non-file/non-directory requests to index.html
+# so React Router can handle client-side navigation (e.g. /signin, /admin)
+# ----------------------------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+RewriteRule ^ index.html [L]
+
+# ----------------------------------------------------------------------
+# Security headers
+# ----------------------------------------------------------------------
+<IfModule mod_headers.c>
+    # Prevent MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+
+    # Basic XSS protection
+    Header set X-XSS-Protection "1; mode=block"
+
+    # Prevent clickjacking
+    Header always append X-Frame-Options "SAMEORIGIN"
+
+    # Referrer policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Cache static assets (built files have content hashes)
+    <FilesMatch "\.(js|css|png|jpg|jpeg|gif|svg|webp|woff2?|ttf|eot)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # No cache for HTML (index.html)
+    <FilesMatch "\.(html)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Compress text-based assets (gzip)
+# ----------------------------------------------------------------------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Disable directory browsing
+# ----------------------------------------------------------------------
+Options -Indexes
+
+# ----------------------------------------------------------------------
+# Block access to hidden files (.env, .git, etc.)
+# ----------------------------------------------------------------------
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

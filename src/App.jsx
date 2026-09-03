@@ -2,7 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import UserProtectedRoute from './components/UserProtectedRoute';
-import ChatWidget from './components/ChatWidget';
+// import ChatWidget from './components/ChatWidget';
 
 // Public pages
 import Home from './pages/Home';
@@ -102,7 +102,10 @@ const App = () => {
         </Routes>
       </main>
       {!hideChrome && <Footer />}
-      {!hideChrome && <ChatWidget />}
+      {/* Chat assistant temporarily disabled — re-enable by uncommenting
+          this line and the ChatWidget import above. The backend (/api/chat)
+          and the knowledge index stay live and in sync either way. */}
+      {/* {!hideChrome && <ChatWidget />} */}
     </div>
   );
 };

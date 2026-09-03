@@ -83,6 +83,16 @@ export const createPartner = (data) => API.post("/partners", data);
 export const updatePartner = (id, data) => API.put(`/partners/${id}`, data);
 export const deletePartner = (id) => API.delete(`/partners/${id}`);
 
+// Pricing rate card (admin)
+export const fetchPricingRules = () => API.get("/pricing");
+export const createPricingRule = (data) => API.post("/pricing", data);
+export const updatePricingRule = (id, data) => API.put(`/pricing/${id}`, data);
+export const deletePricingRule = (id) => API.delete(`/pricing/${id}`);
+
+// Chatbot knowledge index (admin)
+export const fetchChatStatus = () => API.get("/chat/status");
+export const rebuildChatIndex = () => API.post("/chat/reindex");
+
 // Image upload (Cloudinary)
 export const uploadImage = (file, folder = "uploads") => {
   const formData = new FormData();

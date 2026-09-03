@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import UserProtectedRoute from './components/UserProtectedRoute';
+import ChatWidget from './components/ChatWidget';
 
 // Public pages
 import Home from './pages/Home';
@@ -35,6 +36,7 @@ import AdminContacts from './pages/admin/Contacts';
 import AdminReviews from './pages/admin/Reviews';
 import AdminTeam from './pages/admin/Team';
 import AdminPartners from './pages/admin/Partners';
+import AdminPricing from './pages/admin/Pricing';
 
 const App = () => {
   const location = useLocation();
@@ -93,12 +95,14 @@ const App = () => {
             <Route path="contacts" element={<AdminContacts />} />
             <Route path="team" element={<AdminTeam />} />
             <Route path="partners" element={<AdminPartners />} />
+            <Route path="pricing" element={<AdminPricing />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       {!hideChrome && <Footer />}
+      {!hideChrome && <ChatWidget />}
     </div>
   );
 };

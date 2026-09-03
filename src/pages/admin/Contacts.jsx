@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { Mail, Phone, Calendar, Trash2, Eye, X, Reply, Archive } from 'lucide-react';
+import { Mail, Phone, Calendar, Trash2, Eye, X, Reply, Archive, Bot} from 'lucide-react';
 import API from '../../services/api';
 
 const Contacts = () => {
@@ -135,6 +135,11 @@ const Contacts = () => {
                           ARCHIVED
                         </span>
                       )}
+                      {contact.source === 'chatbot' && (
+                        <span className="bg-primary-100 text-primary-700 text-[10px] px-2 py-0.5 rounded-full font-bold inline-flex items-center gap-1">
+                          <Bot size={10} /> CHATBOT
+                        </span>
+                      )}
                     </div>
                     {contact.subject && (
                       <p className="font-medium text-sm text-slate-800 mb-1 truncate">
@@ -142,6 +147,14 @@ const Contacts = () => {
                       </p>
                     )}
                     <p className="text-sm text-slate-600 line-clamp-1">{contact.message}</p>
+                    {contact.quoteSnapshot?.formatted && (
+                      <p className="text-xs font-semibold text-primary-700 mt-1">
+                        Quoted {contact.quoteSnapshot.formatted}
+                        {contact.quoteSnapshot.timeline
+                          ? ` · ${contact.quoteSnapshot.timeline}`
+                          : ''}
+                      </p>
+                    )}
                     <p className="text-xs text-slate-400 mt-1 flex items-center gap-1">
                       <Calendar size={12} /> {formatDate(contact.createdAt)}
                     </p>

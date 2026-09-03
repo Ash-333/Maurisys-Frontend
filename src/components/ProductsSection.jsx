@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, ShoppingBag } from 'lucide-react';
 import { fetchProducts } from '../services/api';
+import { formatNPR } from '../utils/currency';
 
 const categories = [
     { id: 'all', label: 'All' },
@@ -116,11 +117,11 @@ const ProductsSection = ({ limit = null, showFilters = true, hideIfEmpty = false
                                         <div className="flex items-center gap-2">
                                             {item.discountPrice ? (
                                                 <>
-                                                    <span className="font-bold text-primary-800">${item.discountPrice}</span>
-                                                    <span className="text-xs text-slate-400 line-through">${item.price}</span>
+                                                    <span className="font-bold text-primary-800">{formatNPR(item.discountPrice)}</span>
+                                                    <span className="text-xs text-slate-400 line-through">{formatNPR(item.price)}</span>
                                                 </>
                                             ) : (
-                                                <span className="font-bold text-primary-800">${item.price}</span>
+                                                <span className="font-bold text-primary-800">{formatNPR(item.price)}</span>
                                             )}
                                         </div>
                                         <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary-700">

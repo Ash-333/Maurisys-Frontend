@@ -5,6 +5,7 @@ import {
   Star, Edit2, Plus, ShoppingBag, Users,
 } from 'lucide-react';
 import API from '../../services/api';
+import KnowledgeIndexCard from '../../components/admin/KnowledgeIndexCard';
 
 // Safely unwrap a Promise.allSettled result, falling back to an empty
 // shape if that particular request failed — so one broken/unavailable
@@ -434,6 +435,10 @@ const Dashboard = () => {
             )}
           </ul>
         </div>
+      </div>
+
+      <div className="mt-6">
+        <KnowledgeIndexCard />
       </div>
     </div>
   );

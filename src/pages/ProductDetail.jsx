@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Check, ArrowRight, ArrowLeft } from 'lucide-react';
 import { fetchProductBySlug } from '../services/api';
 import CTA from '../components/CTA';
+import { formatNPR } from '../utils/currency';
 
 const ProductDetail = () => {
   const { slug } = useParams();
@@ -71,11 +72,11 @@ const ProductDetail = () => {
               <div className="flex items-center gap-3 mb-8">
                 {product.discountPrice ? (
                   <>
-                    <span className="text-3xl font-bold text-primary-800">${product.discountPrice}</span>
-                    <span className="text-lg text-slate-400 line-through">${product.price}</span>
+                    <span className="text-3xl font-bold text-primary-800">{formatNPR(product.discountPrice)}</span>
+                    <span className="text-lg text-slate-400 line-through">{formatNPR(product.price)}</span>
                   </>
                 ) : (
-                  <span className="text-3xl font-bold text-primary-800">${product.price}</span>
+                  <span className="text-3xl font-bold text-primary-800">{formatNPR(product.price)}</span>
                 )}
                 {product.stock > 0 ? (
                   <span className="text-xs font-semibold text-green-700 bg-green-50 px-2.5 py-1 rounded-full">

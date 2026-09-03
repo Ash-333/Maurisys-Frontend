@@ -9,6 +9,7 @@ import {
 } from '../../services/api';
 import ImageUpload from '../../components/admin/imageUpload';
 import { useConfirm } from '../../components/admin/ConfirmDialog';
+import { formatNPR } from '../../utils/currency';
 
 const emptyForm = {
     name: '',
@@ -199,11 +200,11 @@ const Products = () => {
                                 <div className="flex items-center gap-2 mb-2">
                                     {item.discountPrice ? (
                                         <>
-                                            <span className="text-sm font-bold text-primary-700">${item.discountPrice}</span>
-                                            <span className="text-xs text-slate-400 line-through">${item.price}</span>
+                                            <span className="text-sm font-bold text-primary-700">{formatNPR(item.discountPrice)}</span>
+                                            <span className="text-xs text-slate-400 line-through">{formatNPR(item.price)}</span>
                                         </>
                                     ) : (
-                                        <span className="text-sm font-bold text-primary-700">${item.price}</span>
+                                        <span className="text-sm font-bold text-primary-700">{formatNPR(item.price)}</span>
                                     )}
                                     <span className="text-xs text-slate-400">· Stock: {item.stock}</span>
                                 </div>

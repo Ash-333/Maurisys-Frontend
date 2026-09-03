@@ -3,6 +3,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Plus, Edit2, Trash2, X, Star } from 'lucide-react';
 import API from '../../services/api';
 import ImageUpload from '../../components/admin/imageUpload';
+import { useConfirm } from '../../components/admin/ConfirmDialog';
 
 const emptyForm = {
   title: '',
@@ -18,6 +19,7 @@ const emptyForm = {
 const categories = ['web', 'mobile', 'graphics', 'seo', 'branding', 'other'];
 
 const Portfolio = () => {
+  const { confirm, dialog } = useConfirm();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -92,7 +94,13 @@ const Portfolio = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Delete this project?')) return;
+    const ok = await confirm({
+      title: 'Delete project',
+      message:
+        'This project will be permanently removed from your portfolio. This cannot be undone.',
+      confirmLabel: 'Delete project',
+    });
+    if (!ok) return;
     try {
       await API.delete(`/portfolio/${id}`);
       toast.success('Project deleted');
@@ -107,6 +115,7 @@ const Portfolio = () => {
   return (
     <div>
       <Toaster position="top-right" />
+      {dialog}
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>

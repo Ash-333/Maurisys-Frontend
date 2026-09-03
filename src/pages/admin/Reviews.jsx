@@ -4,8 +4,10 @@ import {
   Star, Check, X, Trash2, Edit2, Eye, EyeOff,
 } from 'lucide-react';
 import API from '../../services/api';
+import { useConfirm } from '../../components/admin/ConfirmDialog';
 
 const Reviews = () => {
+  const { confirm, dialog } = useConfirm();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all'); // all, pending, approved
@@ -62,7 +64,13 @@ const Reviews = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Delete this review permanently?')) return;
+    const ok = await confirm({
+      title: 'Delete review',
+      message:
+        'This review will be permanently deleted. This cannot be undone.',
+      confirmLabel: 'Delete review',
+    });
+    if (!ok) return;
     try {
       await API.delete(`/reviews/${id}`);
       toast.success('Review deleted');
@@ -107,6 +115,7 @@ const Reviews = () => {
   return (
     <div>
       <Toaster position="top-right" />
+      {dialog}
 
       <div className="mb-6 flex items-start justify-between gap-3">
         <div>

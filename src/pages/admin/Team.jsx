@@ -8,6 +8,7 @@ import {
     deleteTeamMember,
 } from '../../services/api';
 import ImageUpload from '../../components/admin/imageUpload';
+import { useConfirm } from '../../components/admin/ConfirmDialog';
 
 const categories = ['leadership', 'development', 'design', 'marketing', 'sales', 'support', 'other'];
 
@@ -23,6 +24,7 @@ const emptyForm = {
 };
 
 const Team = () => {
+    const { confirm, dialog } = useConfirm();
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -99,7 +101,13 @@ const Team = () => {
     };
 
     const handleDelete = async (id) => {
-        if (!confirm('Remove this team member?')) return;
+        const ok = await confirm({
+            title: 'Remove team member',
+            message:
+                'This person will be removed from the team page. This cannot be undone.',
+            confirmLabel: 'Remove member',
+        });
+        if (!ok) return;
         try {
             await deleteTeamMember(id);
             toast.success('Team member removed');
@@ -114,6 +122,7 @@ const Team = () => {
     return (
         <div>
             <Toaster position="top-right" />
+            {dialog}
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>

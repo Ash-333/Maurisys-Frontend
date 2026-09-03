@@ -8,6 +8,7 @@ import {
     deleteProduct,
 } from '../../services/api';
 import ImageUpload from '../../components/admin/imageUpload';
+import { useConfirm } from '../../components/admin/ConfirmDialog';
 
 const emptyForm = {
     name: '',
@@ -27,6 +28,7 @@ const emptyForm = {
 const categories = ['software', 'hardware', 'subscription', 'service-bundle', 'other'];
 
 const Products = () => {
+    const { confirm, dialog } = useConfirm();
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -108,7 +110,13 @@ const Products = () => {
     };
 
     const handleDelete = async (id) => {
-        if (!confirm('Delete this product?')) return;
+        const ok = await confirm({
+            title: 'Delete product',
+            message:
+                'This product will be permanently removed from the store. This cannot be undone.',
+            confirmLabel: 'Delete product',
+        });
+        if (!ok) return;
         try {
             await deleteProduct(id);
             toast.success('Product deleted');
@@ -123,6 +131,7 @@ const Products = () => {
     return (
         <div>
             <Toaster position="top-right" />
+            {dialog}
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>

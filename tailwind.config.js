@@ -57,6 +57,7 @@ export default {
         'fade-in': 'fadeIn 0.5s ease-out',
         'slide-up': 'slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
         'float': 'float 7s ease-in-out infinite',
+        'marquee': 'marquee 40s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -70,6 +71,12 @@ export default {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-14px)' },
+        },
+        // The track renders the logo list twice, so shifting by half its
+        // width lands exactly on the start of the second copy — a seamless loop.
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
       },
     },

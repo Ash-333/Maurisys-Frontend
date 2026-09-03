@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate, Outlet } from 'react-router-dom';
 import {
   LayoutDashboard, FileText, Briefcase, Wrench,
   Mail, LogOut, Menu, X, Code2, ExternalLink, Star, ShoppingBag,
-  Users,
+  Users, Handshake,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import logo from '../../assets/logo.png'
@@ -27,6 +27,7 @@ const AdminLayout = () => {
     { name: 'Reviews', path: '/admin/reviews', icon: Star },
     { name: 'Blogs', path: '/admin/blogs', icon: FileText },
     { name: 'Team', path: '/admin/team', icon: Users },
+    { name: 'Partners', path: '/admin/partners', icon: Handshake },
     { name: 'Contact Messages', path: '/admin/contacts', icon: Mail },
   ];
 

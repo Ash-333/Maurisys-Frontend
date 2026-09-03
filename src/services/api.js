@@ -77,6 +77,12 @@ export const createTeamMember = (data) => API.post("/team", data);
 export const updateTeamMember = (id, data) => API.put(`/team/${id}`, data);
 export const deleteTeamMember = (id) => API.delete(`/team/${id}`);
 
+// Partners
+export const fetchPartners = (params = {}) => API.get("/partners", { params });
+export const createPartner = (data) => API.post("/partners", data);
+export const updatePartner = (id, data) => API.put(`/partners/${id}`, data);
+export const deletePartner = (id) => API.delete(`/partners/${id}`);
+
 // Image upload (Cloudinary)
 export const uploadImage = (file, folder = "uploads") => {
   const formData = new FormData();

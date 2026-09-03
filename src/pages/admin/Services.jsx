@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
 import API from '../../services/api';
+import { useConfirm } from '../../components/admin/ConfirmDialog';
 
 const emptyForm = {
   title: '',
@@ -17,6 +18,7 @@ const emptyForm = {
 const iconOptions = ['globe', 'smartphone', 'palette', 'trending-up', 'megaphone', 'image', 'server', 'pen-tool', 'link', 'code'];
 
 const Services = () => {
+  const { confirm, dialog } = useConfirm();
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -85,7 +87,13 @@ const Services = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Delete this service?')) return;
+    const ok = await confirm({
+      title: 'Delete service',
+      message:
+        'This service will be permanently removed from the site. This cannot be undone.',
+      confirmLabel: 'Delete service',
+    });
+    if (!ok) return;
     try {
       await API.delete(`/services/${id}`);
       toast.success('Service deleted');
@@ -98,6 +106,7 @@ const Services = () => {
   return (
     <div>
       <Toaster position="top-right" />
+      {dialog}
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>

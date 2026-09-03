@@ -3,6 +3,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Plus, Edit2, Trash2, Eye, X, Search } from 'lucide-react';
 import API from '../../services/api';
 import ImageUpload from '../../components/admin/imageUpload';
+import { useConfirm } from '../../components/admin/ConfirmDialog';
 
 const emptyForm = {
   title: '',
@@ -16,6 +17,7 @@ const emptyForm = {
 };
 
 const Blogs = () => {
+  const { confirm, dialog } = useConfirm();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -86,7 +88,13 @@ const Blogs = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Delete this blog post?')) return;
+    const ok = await confirm({
+      title: 'Delete blog post',
+      message:
+        'This post will be permanently removed from your blog. This cannot be undone.',
+      confirmLabel: 'Delete post',
+    });
+    if (!ok) return;
     try {
       await API.delete(`/blogs/${id}`);
       toast.success('Blog deleted');
@@ -103,6 +111,7 @@ const Blogs = () => {
   return (
     <div>
       <Toaster position="top-right" />
+      {dialog}
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>

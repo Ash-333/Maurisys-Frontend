@@ -105,7 +105,7 @@ const App = () => {
       {/* Chat assistant temporarily disabled — re-enable by uncommenting
           this line and the ChatWidget import above. The backend (/api/chat)
           and the knowledge index stay live and in sync either way. */}
-      {/* {!hideChrome && <ChatWidget />} */}
+      {!hideChrome && <ChatWidget />} 
     </div>
   );
 };

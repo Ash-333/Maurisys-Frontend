@@ -2,7 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import UserProtectedRoute from './components/UserProtectedRoute';
-// import ChatWidget from './components/ChatWidget';
+import ChatWidget from './components/ChatWidget';
 
 // Public pages
 import Home from './pages/Home';

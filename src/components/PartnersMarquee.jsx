@@ -7,7 +7,7 @@ const PartnerLogo = ({ partner }) => {
             src={partner.logo}
             alt={partner.name}
             loading="lazy"
-            className="max-h-14 sm:max-h-20 w-auto object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+            className="max-h-14 sm:max-h-20 w-auto object-contain transition-transform duration-300 hover:scale-110"
         />
     );
 
@@ -62,30 +62,30 @@ const PartnersMarquee = ({ hideIfEmpty = true }) => {
                         The organisations that count on us to build, ship, and scale their technology.
                     </p>
                 </div>
-            </div>
 
-            {/* Edge fade so logos dissolve instead of getting clipped mid-scroll */}
-            <div
-                className="group relative overflow-hidden"
-                style={{
-                    maskImage:
-                        'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
-                    WebkitMaskImage:
-                        'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
-                }}
-            >
-                <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused] motion-reduce:animate-none">
-                    {[...strip, ...strip].map((partner, i) => (
-                        <div
-                            key={`${partner._id}-${i}`}
-                            className="shrink-0 px-8 sm:px-14 flex items-center justify-center h-28"
-                            // The duplicated half is decorative — screen readers
-                            // announce the first pass only.
-                            aria-hidden={i >= strip.length}
-                        >
-                            <PartnerLogo partner={partner} />
-                        </div>
-                    ))}
+                {/* Edge fade so logos dissolve instead of getting clipped mid-scroll */}
+                <div
+                    className="group relative overflow-hidden"
+                    style={{
+                        maskImage:
+                            'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+                        WebkitMaskImage:
+                            'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+                    }}
+                >
+                    <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+                        {[...strip, ...strip].map((partner, i) => (
+                            <div
+                                key={`${partner._id}-${i}`}
+                                className="shrink-0 px-8 sm:px-14 flex items-center justify-center h-28"
+                                // The duplicated half is decorative — screen readers
+                                // announce the first pass only.
+                                aria-hidden={i >= strip.length}
+                            >
+                                <PartnerLogo partner={partner} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

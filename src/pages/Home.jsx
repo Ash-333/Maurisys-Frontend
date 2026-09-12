@@ -3,6 +3,7 @@ import Features from '../components/Features';
 import AboutSection from '../components/AboutSection';
 import ServicesSection from '../components/ServicesSection';
 import PortfolioSection from '../components/PortfolioSection';
+import TechStack from '../components/TechStack';
 import Stats from '../components/Stats';
 import PartnersMarquee from '../components/PartnersMarquee';
 // import Pricing from '../components/Pricing';
@@ -21,6 +22,7 @@ const Home = () => {
       <Stats />
       <PartnersMarquee />
       <ServicesSection limit={6} />
+      <TechStack />
       <ProductsSection limit={3} showFilters={false} hideIfEmpty />
       <PortfolioSection limit={6} showFilters={false} hideIfEmpty />
       {/* <Pricing /> */}

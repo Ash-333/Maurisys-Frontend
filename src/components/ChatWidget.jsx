@@ -1,6 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { MessageCircle, X, Send, Loader2, RotateCcw } from 'lucide-react';
+
+// The Markdown parser is only needed once a chat is actually opened, so it is
+// split into its own chunk instead of riding along in the main bundle.
+const ChatMarkdown = lazy(() => import('./ChatMarkdown'));
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
@@ -122,12 +126,26 @@ const ChatWidget = () => {
   return (
     <>
       {/* Launcher */}
+      {/* Closed, the launcher is a labelled pill so the entry point reads as an
+          invitation rather than an unmarked icon; open, it collapses to a plain
+          circle so it stops competing with the panel above it. */}
       <button
         onClick={() => setOpen((o) => !o)}
-        aria-label={open ? 'Close chat' : 'Open chat'}
-        className="fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-primary-800 text-white shadow-elevated flex items-center justify-center hover:bg-primary-900 transition-all hover:scale-105"
+        aria-label={open ? 'Close chat' : 'Ask Maurisys AI'}
+        className={`fixed bottom-5 right-5 z-40 h-14 rounded-full bg-primary-800 text-white shadow-elevated flex items-center justify-center hover:bg-primary-900 transition-all hover:scale-105 ${
+          open ? 'w-14' : 'gap-2.5 pl-5 pr-6'
+        }`}
       >
-        {open ? <X size={22} /> : <MessageCircle size={22} />}
+        {open ? (
+          <X size={22} />
+        ) : (
+          <>
+            <MessageCircle size={22} className="shrink-0" />
+            <span className="text-sm font-semibold tracking-tight whitespace-nowrap">
+              Ask Maurisys AI
+            </span>
+          </>
+        )}
       </button>
 
       {open && (
@@ -158,7 +176,17 @@ const ChatWidget = () => {
                       : 'bg-slate-100 text-slate-800 rounded-bl-sm'
                   }`}
                 >
-                  <p className="whitespace-pre-wrap">{m.content}</p>
+                  {m.role === 'user' ? (
+                    <p className="whitespace-pre-wrap">{m.content}</p>
+                  ) : (
+                    // Until the chunk lands, show the raw text — it stays
+                    // readable, just unstyled.
+                    <Suspense
+                      fallback={<p className="whitespace-pre-wrap">{m.content}</p>}
+                    >
+                      <ChatMarkdown content={m.content} />
+                    </Suspense>
+                  )}
 
                   {uniqueSources(m.sources).length > 0 && (
                     <div className="mt-2.5 pt-2.5 border-t border-slate-200 flex flex-wrap gap-1.5">
